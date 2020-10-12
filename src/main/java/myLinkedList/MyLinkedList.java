@@ -6,19 +6,19 @@ public interface MyLinkedList<T> {
 
     MyLinkedList<T> reverse() throws Exception;
 
-    boolean add(T t);
+    void add(T t);
 
-    boolean delElemByIndex(int index);
+    void delElemByIndex(int index);
 
     LinListElem<T> findElemByIndex(int index) throws Exception;
 
     T get(int index) throws Exception;
 
-    public LinListElem<T> getFirstElement();
+    LinListElem<T> getFirstElement();
 
-    public LinListElem<T> getLastElement();
+    LinListElem<T> getLastElement();
 
-    public void setLastElement(LinListElem<T> lastElement);
+    void setLastElement(LinListElem<T> lastElement);
 
-    public void setFirstElement(LinListElem<T> lastElement);
+    void setFirstElement(LinListElem<T> lastElement);
 }

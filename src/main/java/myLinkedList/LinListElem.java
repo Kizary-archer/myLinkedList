@@ -5,7 +5,6 @@ public class LinListElem<T> implements Cloneable{
    private LinListElem<T> before = null;
    private LinListElem<T> after = null;
 
-   public  LinListElem(){}
     public LinListElem(T element, LinListElem<T> before, LinListElem<T> after) {
         this.element = element;
         this.before = before;

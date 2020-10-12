@@ -10,7 +10,7 @@ public class App {
 
         try {
             MyLinkedList<String> rev = myLinkedList.reverse();
-            // myLinkedList.delElemByIndex(2);
+            myLinkedList.delElemByIndex(2);
             System.out.println(myLinkedList.get(2));
         } catch (Exception e) {
             e.printStackTrace();

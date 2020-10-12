@@ -29,26 +29,33 @@ public class MyLinkedListImpl<T> implements MyLinkedList<T>, Cloneable {
 
     @Override
     public MyLinkedList<T> reverse() throws Exception {
-        MyLinkedList<T> resLinkedList = (MyLinkedList<T>) this.clone();
-
-        LinListElem<T> temp = resLinkedList.getFirstElement();
-//        resLinkedList.setFirstElement(resLinkedList.getLastElement());
-//        resLinkedList.setLastElement(temp);
-        LinListElem<T> element = resLinkedList.getFirstElement().getAfter();
-        LinListElem<T> elementBefore = resLinkedList.getFirstElement();
-        for (int i = 1; i <= resLinkedList.getSize(); i++) {
-            if (elementBefore.getAfter() != null) temp = elementBefore.getAfter();
-            if (elementBefore.getBefore() != null) elementBefore.setAfter(elementBefore.getBefore());
-            if (temp != null) elementBefore.setBefore(temp);
-            elementBefore = element;
-            element = element.getAfter();
+        MyLinkedList<T> revLinkList = (MyLinkedList<T>) this.clone(); //клонируем список
+        LinListElem<T> temp = null;
+        LinListElem<T> e = revLinkList.getFirstElement().getAfter();
+        LinListElem<T> eb = revLinkList.getFirstElement();
+        for (int i = 1; i <= revLinkList.getSize(); i++) { //меняем местами ссылки на соседей
+            if (eb.getAfter() != null)
+                temp = eb.getAfter();
+            if (eb.getBefore() != null)
+                eb.setAfter(eb.getBefore());
+            if (temp != null)
+                eb.setBefore(temp);
+            if (e != null)
+                eb = e;
+            if (e.getAfter() != null)
+                e = e.getAfter();
         }
-
-        return resLinkedList;
+        // меняем местами первый и последний элемент м подчищаем хвосты
+        temp = revLinkList.getFirstElement();
+        revLinkList.setFirstElement(revLinkList.getLastElement());
+        revLinkList.setLastElement(temp);
+        revLinkList.getFirstElement().setBefore(null);
+        revLinkList.getLastElement().setAfter(null);
+        return revLinkList;
     }
 
     @Override
-    public boolean add(T t) {
+    public void add(T t) {
         try {
             this.lastElement = new LinListElem<T>(t, lastElement); //добавляем новый элемент и назначаем его последним
             if (getSize() == 0)
@@ -57,40 +64,36 @@ public class MyLinkedListImpl<T> implements MyLinkedList<T>, Cloneable {
             this.size += 1; //увеличиваем размер списка
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
         }
-        return true;
     }
 
     @Override
-    public boolean delElemByIndex(int index) {
+    public void delElemByIndex(int index) {
 
         try {
-            LinListElem<T> element = findElemByIndex(index); //получаем элемент по индексу
-            LinListElem<T> elementBefore = element.getBefore();//получаем его предка
-            LinListElem<T> elementAfter = element.getAfter();//получаем его потомка
-            elementBefore.setAfter(elementAfter);//передаем предку нового потомка(исключаем элемент из списка)
-            elementAfter.setBefore(elementBefore);//передаем потомку нового предка(исключаем элемент из списка)
+            LinListElem<T> e = findElemByIndex(index); //получаем элемент по индексу
+            LinListElem<T> eb = e.getBefore();//получаем его предка
+            LinListElem<T> ea = e.getAfter();//получаем его потомка
+            eb.setAfter(ea);//передаем предку нового потомка(исключаем элемент из списка)
+            ea.setBefore(eb);//передаем потомку нового предка(исключаем элемент из списка)
             this.size -= 1;
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
         }
-        return true;
     }
 
     @Override
     public LinListElem<T> findElemByIndex(int index) throws Exception {
         if (index > getSize()) throw new Exception("oversize element index");
-        LinListElem<T> element;
-        if (this.size / 2 > index) element = this.firstElement;
+        LinListElem<T> e;
+        if (this.size / 2 > index) e = this.firstElement; // выбераем сторону с которой идти
         else {
-            element = this.lastElement;
+            e = this.lastElement;
             index = this.size - index;
         }
         for (int i = 1; i <= index; i++)
-            element = element.getBefore();
-        return element;
+            e = e.getBefore();
+        return e;
     }
 
     @Override
