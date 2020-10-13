@@ -1,6 +1,8 @@
 package myLinkedList;
 
-public class LinListElem<T> implements Cloneable{
+import java.io.Serializable;
+
+public class LinListElem<T> implements Serializable {
    private T element = null;
    private LinListElem<T> before = null;
    private LinListElem<T> after = null;

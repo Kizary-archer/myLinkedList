@@ -1,16 +1,20 @@
 package myLinkedList;
 
+import java.io.IOException;
+
 public interface MyLinkedList<T> {
 
     int getSize();
 
     MyLinkedList<T> reverse() throws Exception;
 
-    void add(T t);
+    MyLinkedList<T> clone(MyLinkedList<T> myLinkedList) throws IOException, ClassNotFoundException;
 
-    void delElemByIndex(int index);
 
-    LinListElem<T> findElemByIndex(int index) throws Exception;
+
+    boolean add(T t);
+
+    boolean delElemByIndex(int index);
 
     T get(int index) throws Exception;
 
